@@ -10,6 +10,8 @@
 		283973710D5DF57200EE8772 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2839736D0D5DF57200EE8772 /* main.m */; };
 		2839737E0D5DF59900EE8772 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2839737B0D5DF59900EE8772 /* InfoPlist.strings */; };
 		2839739C0D5DF7DC00EE8772 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2839739A0D5DF7DC00EE8772 /* MainMenu.xib */; };
+		283973A20D5DFF0D00EE8772 /* A2PAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 283973A10D5DFF0D00EE8772 /* A2PAppController.m */; };
+		283973E10D5E03DC00EE8772 /* ImageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283973DA0D5E037D00EE8772 /* ImageKit.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +29,9 @@
 		2839736E0D5DF57200EE8772 /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
 		2839737C0D5DF59900EE8772 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2839739B0D5DF7DC00EE8772 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		283973A00D5DFF0D00EE8772 /* A2PAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A2PAppController.h; sourceTree = "<group>"; };
+		283973A10D5DFF0D00EE8772 /* A2PAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A2PAppController.m; sourceTree = "<group>"; };
+		283973DA0D5E037D00EE8772 /* ImageKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageKit.framework; path = /System/Library/Frameworks/Quartz.framework/Frameworks/ImageKit.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
@@ -39,6 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				283973E10D5E03DC00EE8772 /* ImageKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +54,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2839739F0D5DFEF700EE8772 /* Controllers */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -56,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				283973DA0D5E037D00EE8772 /* ImageKit.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -99,6 +107,16 @@
 				2839736D0D5DF57200EE8772 /* main.m */,
 			);
 			path = "Other Sources";
+			sourceTree = "<group>";
+		};
+		2839739F0D5DFEF700EE8772 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				283973A00D5DFF0D00EE8772 /* A2PAppController.h */,
+				283973A10D5DFF0D00EE8772 /* A2PAppController.m */,
+			);
+			name = Controllers;
+			path = Classes/Controllers;
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* Attach to PDF */ = {
@@ -196,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				283973710D5DF57200EE8772 /* main.m in Sources */,
+				283973A20D5DFF0D00EE8772 /* A2PAppController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +244,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 283973580D5DF4D200EE8772 /* Cocoa Application Debug.xcconfig */;
 			buildSettings = {
+				BUNDLE_ID_PREFIX = org.playhaus.AttachToPDF;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Frameworks\"",
+				);
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_PREFIX_HEADER = "Other Sources/prefix.pch";
 				INFOPLIST_FILE = Resources/Info.plist;
 				PRODUCT_NAME = "Attach to PDF";
@@ -235,6 +260,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 283973590D5DF4D200EE8772 /* Cocoa Application Release.xcconfig */;
 			buildSettings = {
+				BUNDLE_ID_PREFIX = org.playhaus.AttachToPDF;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Frameworks\"",
+				);
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_PREFIX_HEADER = "Other Sources/prefix.pch";
 				INFOPLIST_FILE = Resources/Info.plist;
 				PRODUCT_NAME = "Attach to PDF";

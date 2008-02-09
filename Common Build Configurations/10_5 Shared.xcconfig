@@ -1,0 +1,12 @@
+//
+//  10_5 Shared.xcconfig
+//  Shared build configuration settings for projects targeting Mac OS X 10.5
+//  based on the 10.5 Universal SDK
+//
+//  Created by Jonathon Mah on 2008-02-10.
+
+#include "10_4 Shared"
+
+
+SDKROOT = /Developer/SDKs/MacOSX10.5.sdk
+MACOSX_DEPLOYMENT_TARGET = 10.5

@@ -17,6 +17,7 @@
 @property(readonly) NSString *path, *imageRepresentationType, *imageUID, *imageTitle;
 @property(readonly) id imageRepresentation;
 
++ (id)imageObjectWithPath:(NSString *)path;
 - (id)initWithPath:(NSString *)path;
 
 @end
@@ -26,11 +27,19 @@
 
 @synthesize path = _path;
 
++ (id)imageObjectWithPath:(NSString *)path; { return [[[self alloc] initWithPath:path] autorelease]; }
+
 - (id)initWithPath:(NSString *)path;
 {
 	if ((self = [super init]))
-		_path = path;
+		_path = [path copy];
 	return self;
+}
+
+- (void)dealloc;
+{
+	[_path release], _path = nil;
+	[super dealloc];
 }
 
 - (NSString *)imageRepresentationType; { return IKImageBrowserPathRepresentationType; }
@@ -60,6 +69,15 @@
 }
 
 
+- (void)dealloc;
+{
+	[inputFileURL release], inputFileURL = nil;
+	[outputDirectoryURL release], outputDirectoryURL = nil;
+	[imagesToAttach release], imagesToAttach = nil;
+	[super dealloc];
+}
+
+
 
 #pragma mark Properties
 
@@ -68,7 +86,9 @@
 
 - (void)setImagesToAttach:(NSArray *)imageObjects;
 {
-	imagesToAttach = imageObjects;
+	id oldValue = imagesToAttach;
+	imagesToAttach = [imageObjects copy];
+	[oldValue release];
 	[imageBrowserView reloadData];
 }
 
@@ -86,7 +106,7 @@
 
 - (IBAction)attachFilesToPDF:(id)sender;
 {
-	NSTask *task = [[NSTask alloc] init];
+	NSTask *task = [[[NSTask alloc] init] autorelease];
 	
 	task.launchPath = @"/usr/bin/env";
 	
@@ -139,7 +159,7 @@
 	// Launch pdftk to prime the cache
 	// Create a dummy pipe to discard standard output
 	NSPipe *pipe = [NSPipe pipe];
-	NSTask *task = [[NSTask alloc] init];
+	NSTask *task = [[[NSTask alloc] init] autorelease];
 	task.launchPath = @"/usr/bin/env";
 	task.arguments = [NSArray arrayWithObject:@"pdftk"];
 	task.standardOutput = pipe;
@@ -174,7 +194,7 @@
 
 - (void)imageBrowser:(IKImageBrowserView *)browser removeItemsAtIndexes:(NSIndexSet *)indexes;
 {
-	NSMutableArray *newImages = [self.imagesToAttach mutableCopy];
+	NSMutableArray *newImages = [NSMutableArray arrayWithArray:self.imagesToAttach];
 	[newImages removeObjectsAtIndexes:indexes];
 	self.imagesToAttach = newImages;
 }
@@ -182,7 +202,7 @@
 
 - (BOOL)imageBrowser:(IKImageBrowserView *)browser moveItemsAtIndexes:(NSIndexSet *)indexes toIndex:(NSUInteger)destinationIndex;
 {
-	NSMutableArray *newImages = [self.imagesToAttach mutableCopy];
+	NSMutableArray *newImages = [NSMutableArray arrayWithArray:self.imagesToAttach];
 	NSArray *movedImages = [newImages objectsAtIndexes:indexes];
 	[newImages removeObjectsAtIndexes:indexes];
 	destinationIndex -= [indexes countOfIndexesInRange:NSMakeRange(0, destinationIndex)];
@@ -191,8 +211,6 @@
 	self.imagesToAttach = newImages;
 	return YES;
 }
-
-
 
 
 
@@ -233,7 +251,7 @@
 			[currentPaths addObject:imageObject.path];
 		
 		NSUInteger index = [imageBrowserView indexAtLocationOfDroppedItem];
-		NSMutableArray *newImages = [self.imagesToAttach mutableCopy];
+		NSMutableArray *newImages = [NSMutableArray arrayWithArray:self.imagesToAttach];
 		for (NSString *path in paths)
 		{
 			// Move the item, if it currently exists
@@ -244,7 +262,7 @@
 				if (existingIndex < index)
 					index--;
 			}
-			[newImages insertObject:[[A2PImageObject alloc] initWithPath:path]
+			[newImages insertObject:[A2PImageObject imageObjectWithPath:path]
 							atIndex:index++];
 		}
 		self.imagesToAttach = newImages;

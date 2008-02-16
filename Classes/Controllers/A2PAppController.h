@@ -20,8 +20,8 @@
 
 
 #pragma mark Properties
-@property(copy, readwrite) NSArray *imagesToAttach;
-@property(copy, readwrite) NSURL *inputFileURL, *outputDirectoryURL;
+@property(copy) NSArray *imagesToAttach;
+@property(copy) NSURL *inputFileURL, *outputDirectoryURL;
 
 #pragma mark Interface actions
 - (IBAction)attachFilesToPDF:(id)sender;

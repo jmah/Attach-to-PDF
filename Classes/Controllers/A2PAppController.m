@@ -143,8 +143,7 @@
 
 - (IBAction)clearInput:(id)sender;
 {
-    if (self.trashFilesOnClear)
-    {
+    if (self.trashFilesOnClear) {
         NSMutableArray *pathsToTrash = [NSMutableArray array];
         if (self.inputFileURL)
             [pathsToTrash addObject:[self.inputFileURL path]];
@@ -254,8 +253,7 @@
 {
 	NSPasteboard *pasteboard = [sender draggingPasteboard];
 
-	if ([[pasteboard types] containsObject:NSFilenamesPboardType])
-	{
+	if ([[pasteboard types] containsObject:NSFilenamesPboardType]) {
 		NSString *errorString;
 		NSArray *paths = [NSPropertyListSerialization propertyListFromData:[pasteboard dataForType:NSFilenamesPboardType]
 														  mutabilityOption:kCFPropertyListImmutable
@@ -268,12 +266,10 @@
 		
 		NSUInteger index = [imageBrowserView indexAtLocationOfDroppedItem];
 		NSMutableArray *newImages = [NSMutableArray arrayWithArray:self.imagesToAttach];
-		for (NSString *path in paths)
-		{
+		for (NSString *path in paths) {
 			// Move the item, if it currently exists
 			NSUInteger existingIndex = [currentPaths indexOfObject:path];
-			if (existingIndex != NSNotFound)
-			{
+			if (existingIndex != NSNotFound) {
 				[newImages removeObjectAtIndex:existingIndex];
 				if (existingIndex < index)
 					index--;

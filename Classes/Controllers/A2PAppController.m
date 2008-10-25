@@ -83,6 +83,7 @@
 
 @synthesize imagesToAttach;
 @synthesize inputFileURL, outputDirectoryURL;
+@synthesize trashFilesOnClear;
 
 - (void)setImagesToAttach:(NSArray *)imageObjects;
 {
@@ -142,6 +143,21 @@
 
 - (IBAction)clearInput:(id)sender;
 {
+    if (self.trashFilesOnClear)
+    {
+        NSMutableArray *pathsToTrash = [NSMutableArray array];
+        if (self.inputFileURL)
+            [pathsToTrash addObject:[self.inputFileURL path]];
+        for (A2PImageObject *imageObject in self.imagesToAttach)
+            [pathsToTrash addObject:imageObject.path];
+        NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+        for (NSString *path in pathsToTrash)
+            [ws performFileOperation:NSWorkspaceRecycleOperation
+                              source:[path stringByDeletingLastPathComponent]
+                         destination:nil
+                               files:[NSArray arrayWithObject:[path lastPathComponent]]
+                                 tag:NULL];
+    }
 	self.inputFileURL = nil;
 	self.imagesToAttach = [NSArray array];
 }

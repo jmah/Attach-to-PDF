@@ -16,12 +16,14 @@
 	NSURL *inputFileURL;
 	NSURL *outputDirectoryURL;
 	NSArray *imagesToAttach;
+    BOOL trashFilesOnClear;
 }
 
 
 #pragma mark Properties
 @property(copy) NSArray *imagesToAttach;
 @property(copy) NSURL *inputFileURL, *outputDirectoryURL;
+@property BOOL trashFilesOnClear;
 
 #pragma mark Interface actions
 - (IBAction)attachFilesToPDF:(id)sender;
